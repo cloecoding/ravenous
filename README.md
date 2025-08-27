@@ -31,8 +31,8 @@ Forma parte de mi portafolio como Full-Stack Developer Jr. con foco en frontend,
 Clona el repo y corre los siguientes comandos:
 
 ```bash
-git clone https://github.com/cloecoding/ravenous_2.git
-cd ravenous_2
+git clone https://github.com/cloecoding/ravenous.git
+cd ravenous
 npm install
 npm start
 ```
