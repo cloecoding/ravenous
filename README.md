@@ -46,6 +46,9 @@ Este proyecto utiliza variables de entorno para manejar la API Key de Yelp.
 
 1. Copia el archivo `.env.example` y renómbralo a `.env`:
    ```cp .env.example .env```
+
+
+   
 👤 Autor
 Diego Espinosa
 📧 diesk.93@gmail.com
