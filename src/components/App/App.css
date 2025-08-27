@@ -32,4 +32,37 @@ h1 {
   font-weight: bold;
 }
 
+/* Mensaje genérico */
+.message {
+  background: #222;           /* fondo oscuro sobrio */
+  color: #eee;                /* texto claro */
+  border: 1px solid #444;     /* borde sutil */
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover sutil */
+.message:hover {
+  border-color: #666;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+/* Link dentro del mensaje */
+.message .link {
+  color: #4da6ff;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.message .link:hover {
+  color: #80c0ff;
+}
 

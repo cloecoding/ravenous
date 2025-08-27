@@ -6,17 +6,38 @@ import getSuggestions from "../../utils/yelp";
 
 function App() {
   const [businesses, setBusinesses] = useState([]);
-  const [showMessage, setShowMessage] = useState(false);
+  const [showMessage, setShowMessage] = useState(false); // unlock access
+  const [noResults, setNoResults] = useState(false);     // nuevo estado
 
   const searchYelp = async (keyword, location, sort) => {
-    const suggestions = await getSuggestions(keyword, location, sort);
-    setBusinesses(suggestions);
-    if (!suggestions) {
-      setShowMessage(true);
+    try {
+      const suggestions = await getSuggestions(keyword, location, sort);
+      setBusinesses(Array.isArray(suggestions) ? suggestions : []);
+      
+      // si la API pide desbloquear cors-anywhere
+      if (!suggestions) {
+        setShowMessage(true);
+      } else {
+        setShowMessage(false);
+      }
+
+      // si la búsqueda devuelve array vacío
+      if (Array.isArray(suggestions) && suggestions.length === 0) {
+        setNoResults(true);
+      } else {
+        setNoResults(false);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setBusinesses([]);
+      setNoResults(true);
     }
   };
 
-  useEffect(() => searchYelp("food", "US", "best_match"), []);
+  // búsqueda inicial (demo)
+  useEffect(() => {
+    searchYelp("food", "US", "best_match");
+  }, []);
 
   const handleUnlockAccess = () => {
     window.open("https://cors-anywhere.herokuapp.com/corsdemo", "_blank");
@@ -29,11 +50,13 @@ function App() {
       </header>
       <main>
         <SearchBar searchYelp={searchYelp} />
+
+        {/* mensaje unlock access */}
         {showMessage && (
           <div className="message">
             <p>
-              To use this app, you must temporarily unlock access to the
-              demo. Click{" "}
+              To use this app, you must temporarily unlock access to the demo.{" "}
+              Click{" "}
               <span className="link" onClick={handleUnlockAccess}>
                 here
               </span>{" "}
@@ -41,6 +64,18 @@ function App() {
             </p>
           </div>
         )}
+
+        {/* mensaje no results */}
+        {noResults && !showMessage && (
+          <div className="message">
+            <p>
+              No encontramos resultados para tu búsqueda.  
+              Prueba con otra palabra clave o cambia la ubicación.
+            </p>
+          </div>
+        )}
+
+        {/* lista de negocios */}
         <BusinessList businesses={businesses} />
       </main>
       <footer></footer>
