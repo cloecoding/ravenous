@@ -89,7 +89,9 @@ function App() {
           </div>
         )}
 
-        <BusinessList businesses={businesses} />
+        {businesses.length > 0 && (
+  <BusinessList businesses={businesses} />
+)}
       </main>
       <footer></footer>
     </div>
