@@ -3,7 +3,6 @@
 Ravenous es una aplicación de búsqueda de restaurantes construida con **React** y la **API de Yelp**.  
 Forma parte de mi portafolio como Full-Stack Developer Jr. con foco en frontend, APIs y buenas prácticas de UX.
 
-![screenshot](./screenshot.png)
 
 ## 🚀 Demo
 - **Producción:** [https://ravenous.vercel.app](https://ravenous.vercel.app)  
@@ -48,7 +47,7 @@ Este proyecto utiliza variables de entorno para manejar la API Key de Yelp.
    ```cp .env.example .env```
 
 
-   
+
 👤 Autor
 Diego Espinosa
 📧 diesk.93@gmail.com
