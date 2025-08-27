@@ -7,34 +7,41 @@ import getSuggestions from "../../utils/yelp";
 function App() {
   const [businesses, setBusinesses] = useState([]);
   const [showMessage, setShowMessage] = useState(false); // unlock access
-  const [noResults, setNoResults] = useState(false);     // nuevo estado
+  const [noResults, setNoResults] = useState(false);
+  const [error, setError] = useState(""); // 👈 nuevo
 
   const searchYelp = async (keyword, location, sort) => {
     try {
       const suggestions = await getSuggestions(keyword, location, sort);
-      setBusinesses(Array.isArray(suggestions) ? suggestions : []);
-      
-      // si la API pide desbloquear cors-anywhere
+
       if (!suggestions) {
-        setShowMessage(true);
-      } else {
-        setShowMessage(false);
+        setShowMessage(true); // unlock
+        setNoResults(false);
+        setError("");
+        setBusinesses([]);
+        return;
       }
 
-      // si la búsqueda devuelve array vacío
+      setShowMessage(false);
+
       if (Array.isArray(suggestions) && suggestions.length === 0) {
         setNoResults(true);
+        setError("");
+        setBusinesses([]);
       } else {
         setNoResults(false);
+        setError("");
+        setBusinesses(suggestions);
       }
-    } catch (error) {
-      console.error("Error fetching suggestions:", error);
+    } catch (err) {
+      console.error("Error fetching suggestions:", err);
+      setError("❌ Ocurrió un error con la API (ej: ubicación inválida).");
       setBusinesses([]);
-      setNoResults(true);
+      setNoResults(false);
+      setShowMessage(false);
     }
   };
 
-  // búsqueda inicial (demo)
   useEffect(() => {
     searchYelp("food", "US", "best_match");
   }, []);
@@ -51,7 +58,7 @@ function App() {
       <main>
         <SearchBar searchYelp={searchYelp} />
 
-        {/* mensaje unlock access */}
+        {/* unlock access */}
         {showMessage && (
           <div className="message">
             <p>
@@ -65,8 +72,15 @@ function App() {
           </div>
         )}
 
+        {/* mensaje error */}
+        {error && (
+          <div className="message error">
+            <p>{error}</p>
+          </div>
+        )}
+
         {/* mensaje no results */}
-        {noResults && !showMessage && (
+        {noResults && !error && !showMessage && (
           <div className="message">
             <p>
               No encontramos resultados para tu búsqueda.  
@@ -75,7 +89,6 @@ function App() {
           </div>
         )}
 
-        {/* lista de negocios */}
         <BusinessList businesses={businesses} />
       </main>
       <footer></footer>

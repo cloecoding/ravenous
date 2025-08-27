@@ -66,3 +66,8 @@ h1 {
   color: #80c0ff;
 }
 
+.message.error {
+  background: #3a0c0c;
+  color: #ffb3b3;
+  border: 1px solid #ff4d4d;
+}
